@@ -1,4 +1,4 @@
-import re
+import re, time
 import math
 import scipy.stats as sps
 from experiment_runner import run_experiment
@@ -38,10 +38,17 @@ def get_results(params: dict, n_iter: int) -> dict:
     return parse(run_experiment(params, n_iter))
 
 if __name__ == '__main__':
-    get_results(
-        {
-            'EB_param': None,
-            'TA_param': 
-        },
-        1000
+    time.sleep(2)
+    print(
+        get_results(
+            {
+                'EB_param': 10,
+                'TA_param': 20,
+                'TB_param': 18,
+                'PR_COUNT_param': 2,
+                'GEN_param': '(Exponential(RN_a,0,t_a))',
+                'SERV_param': '(Exponential(RN_b,0,t_b))',
+            },
+            1000
+        )
     )

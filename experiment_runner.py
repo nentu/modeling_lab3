@@ -5,12 +5,17 @@ from executer import execute
 
 
 def run_experiment(params: dict, n_iter, filename='code.txt'):
-    output_path = './data/' + str(params) + '.res'
+    output_path = './data/'
+    for k, v in params.items():
+        output_path += f'{k}_{v}__'
+    output_path += '.res'
+
+    print(output_path)
     if os.path.exists(output_path):
-        return open(output_path, 'r')
+        return open(output_path, 'r', encoding='utf8').read()
     code = open(filename, encoding='utf8').read()
     for key, value in params.items():
-        code = code.replace(key, value)
+        code = code.replace(key, str(value))
 
     # print(code)
     result = execute(
