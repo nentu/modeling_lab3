@@ -44,7 +44,7 @@ def parse(text):
 
 
 def get_results(params: dict, n_iter: int, filename="code2.txt") -> dict:
-    return parse(run_experiment(params, n_iter, filename=filename))
+    return parse(run_experiment(params, n_iter, filename=filename, again = True))
 
 
 if __name__ == "__main__":
@@ -52,12 +52,12 @@ if __name__ == "__main__":
     print(
         get_results(
             {
-                "EB_param": 10,
-                "TA_param": 20,
-                "TB_param": 18,
-                "PR_COUNT_param": 2,
-                "GEN_param": "(Exponential(RN_a,0,t_a))",
-                "SERV_param": "(Exponential(RN_b,0,t_b))",
+                # "EB_param": 10,
+                # "TA_param": 20,
+                # "TB_param": 18,
+                # "PR_COUNT_param": 2,
+                # "GEN_param": "(Exponential(RN_a,0,t_a))",
+                # "SERV_param": "(Exponential(RN_b,0,t_b))",
             },
             1000,
         )
