@@ -3,6 +3,7 @@ import math
 import scipy.stats as sps
 from experiment_runner import run_experiment
 
+
 def extract_f(text, rx):
     data = re.findall(rx, text, re.MULTILINE)[0]
     data = data.strip().split()
@@ -27,28 +28,37 @@ def parse(text):
     dovpct_wait = dov_wait / avg_wait
 
     return dict(
-        avg_resid=avg_resid, std_resid=std_resid,
-        avg_wait=avg_wait, std_wait=std_wait, dov_wait=dov_wait, dovpct_wait=dovpct_wait,
-        cnt_all=cnt_all, cnt_passed=cnt_passed,
-        cnt_refuse=cnt_refuse, prb_refuse=prb_refuse,
-        avg_length=avg_length, avg_wait_nonzero=avg_wait_nonzero
+        avg_resid=avg_resid,
+        std_resid=std_resid,
+        avg_wait=avg_wait,
+        std_wait=std_wait,
+        dov_wait=dov_wait,
+        dovpct_wait=dovpct_wait,
+        cnt_all=cnt_all,
+        cnt_passed=cnt_passed,
+        cnt_refuse=cnt_refuse,
+        prb_refuse=prb_refuse,
+        avg_length=avg_length,
+        avg_wait_nonzero=avg_wait_nonzero,
     )
 
-def get_results(params: dict, n_iter: int) -> dict:
-    return parse(run_experiment(params, n_iter))
 
-if __name__ == '__main__':
+def get_results(params: dict, n_iter: int, filename="code2.txt") -> dict:
+    return parse(run_experiment(params, n_iter, filename=filename))
+
+
+if __name__ == "__main__":
     time.sleep(2)
     print(
         get_results(
             {
-                'EB_param': 10,
-                'TA_param': 20,
-                'TB_param': 18,
-                'PR_COUNT_param': 2,
-                'GEN_param': '(Exponential(RN_a,0,t_a))',
-                'SERV_param': '(Exponential(RN_b,0,t_b))',
+                "EB_param": 10,
+                "TA_param": 20,
+                "TB_param": 18,
+                "PR_COUNT_param": 2,
+                "GEN_param": "(Exponential(RN_a,0,t_a))",
+                "SERV_param": "(Exponential(RN_b,0,t_b))",
             },
-            1000
+            1000,
         )
     )
