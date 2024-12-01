@@ -7,10 +7,12 @@ from my_executer import execute
 def run_experiment(params: dict, n_iter, filename="code.txt", again=False):
     output_path = "./data/"
     for k, v in params.items():
+        if k in ["SERV_param", "GEN_param"]:
+            v = v[1]
         output_path += f"{k}_{v}__"
     output_path += ".res"
-
-    print(output_path)
+    output_path = output_path.replace('\\', '_')
+    # print(output_path)
     if os.path.exists(output_path) and not again:
         return open(output_path, "r", encoding="utf8").read()
     code = open(filename, encoding="utf8").read()
