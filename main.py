@@ -22,20 +22,21 @@ def extract_f(text, rx):
 
 def dov(cnt, std, a=0.99):
     za = float(sps.norm.ppf(1 - a / 2))
-    return za * std / math.sqrt(cnt)
+    return za * std  # / math.sqrt(cnt)
 
 
 def parse(text):
     _, _, _, _, avg_length, _, avg_wait_nonzero, _ = extract_f(text, "^ BUF1(.*)\n")
     avg_resid, std_resid, _ = extract_f(text, "^ TU_UZEL(.*)\n")
     avg_wait, std_wait, _ = extract_f(text, "^ TU_BUF(.*)\n")
+    std_wait = std_wait ** 0.5
     cnt_all, _, _ = extract_f(text, "GENERATE(.*)")
     cnt_refuse, _, _ = extract_f(text, "ZYX.*TERMINATE(.*)\n")
     _, _, _, _, _, _, _, util1, _, _ = extract_f(text, "STORAGE.*\n+ UZEL(.*)\n")
     cnt_passed = cnt_all - cnt_refuse
     prb_refuse = cnt_refuse / cnt_all
     dov_wait = dov(cnt_passed, std_wait)
-    dovpct_wait = dov_wait / avg_wait
+    dovpct_wait = dov_wait / avg_wait * 100
 
     return dict(
         avg_resid=avg_resid,
@@ -91,7 +92,7 @@ def run(src_inputs, out_cols=None):
     ]
     with open(f"json/exp{EXP_NUM}.json", "w") as f:
         json.dump(table, f)
-    text = tabulate(table, headers="keys", tablefmt="github", floatfmt=".3f")
+    text = tabulate(table, headers="keys", tablefmt="tsv", floatfmt=".3f")
     return text
 
 
@@ -200,7 +201,7 @@ def exp4():
 
 
 if __name__ == "__main__":
-    time.sleep(2)
+    # time.sleep(2)
     # for i in range(1, 5):
     #     exec(f"exp{i}()")
     f = open(f'res{EXP_NUM}.md', 'w')
